@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"reflect"
 )
 
 type Credential struct {
@@ -71,32 +72,71 @@ func main() {
 	fmt.Println("q -> Quit")
 	fmt.Scan(&option)
 
-	var id string
-	var password string
+	s := Credential{}
 
 	if option == "l" {
+
+		var id string
+		var password string
 		fmt.Print("Please enter userid : ")
 		fmt.Scan(&id)
 
 		fmt.Print("Please enter your password : ")
 		fmt.Scan(&password)
 
-		s := Credential{userId: id, password: password}
+		// var userdata Credential2
 
-		fmt.Println("Your userId is", s.userId, "and password is", password)
+		// getData := Credential{}
+
+		// fmt.Println(getData.getUserId())
+
+		// s := Credential{userId: id, password: password}
+
+		// fmt.Println("Your userId is", s.userId, "and password is", password)
 
 		UserInputForBankOperations()
 
 	} else if option == "c" {
+		var id string
+		var password string
 		fmt.Print("Please enter userid : ")
 		fmt.Scan(&id)
 
 		fmt.Print("Please enter your password : ")
 		fmt.Scan(&password)
 
-		s := Credential{userId: id, password: password}
+		// s := Credential{userId: id, password: password}
+
+		s.userId = id
+		s.password = password
 
 		fmt.Println("Your Account has been created with userId ", s.userId)
+
+		fmt.Println("l  -> Login")
+		fmt.Println("c -> Create New Account")
+		fmt.Println("q -> Quit")
+		fmt.Scan(&option)
+
+		if option == "l" {
+
+			var id string
+			var password string
+			fmt.Print("Please enter userid : ")
+			fmt.Scan(&id)
+
+			fmt.Print("Please enter your password : ")
+			fmt.Scan(&password)
+
+			r := reflect.ValueOf(s)
+			f := reflect.Indirect(r).FieldByName("userId")
+
+			if f.String() == id {
+				UserInputForBankOperations()
+			} else {
+				fmt.Println("Invalid user id")
+			}
+
+		}
 	} else if option == "q" {
 		os.Exit(1)
 	}
